@@ -3,8 +3,8 @@ var elShiftInput = document.getElementById('shift');
 var elPickerInput = document.getElementById('picker');
 
 var elOutputCanvas = document.getElementById('output');
-var elHueShiftCanvas = elOutputCanvas.cloneNode();
-var elRedDiffCanvas = elOutputCanvas.cloneNode();
+var elHueShiftCanvas = document.createElement('canvas');
+var elRedDiffCanvas = document.createElement('canvas');
 
 var imageWidth, imageHeight;
 
@@ -48,6 +48,8 @@ function updateShiftedHue() {
   ctxHueShift.drawImage(elRedDiffCanvas, 0, 0);
   ctxHueShift.drawImage(elSourceImage, 0, 0);
   imageComposite(ctxOutput, elSourceImage, 'hue', elHueShiftCanvas);
+  ctxOutput.globalCompositeOperation = 'destination-in';
+  ctxOutput.drawImage(elSourceImage, 0, 0);
 }
 
 function setNewImageSource() {
