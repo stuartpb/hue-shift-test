@@ -58,7 +58,7 @@ elPickerInput.addEventListener("input", setNewImageSource);
 
 function updateImage() {
   updateCanvasSizes();
-  imageComposite(ctxRedDiff,elSourceImage,'difference','#foo');
+  imageComposite(ctxRedDiff,elSourceImage,'difference','#f00');
   updateShiftedHue();
 }
 
