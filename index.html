@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hue Shift via composite operation</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body, div {
+        display: flex;
+      }
+      body {
+        flex-flow: row;
+      }
+      .side {
+        flex-flow: column;
+      }
+      .top {
+        flex: none;
+        height: 2em;
+      }
+      .bottom {
+        flex: 1;
+      }
+      .item {
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="side">
+      <div class="top">
+        <input type="url" id="picker" value="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png">
+      </div>
+      <div class="bottom">
+        <img id="source" class="item" src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png">
+      </div>
+    </div>
+    <div class="side">
+      <div class="top">
+        <input type="range" id="shift" min="0" max="360" value="0">
+      </div>
+      <div class="bottom">
+        <canvas id="output" class="item"></canvas>
+      </div>
+    </div>
+    <script src="hueshift.js"></script>
+  </body>
+</html>
