@@ -13,6 +13,9 @@ var ctxChannel = elChannelCanvas.getContext('2d');
 function mixChannel(inColor, outHue) {
   ctxChannel.globalCompositeOperation = 'copy';
   ctxChannel.drawImage(elSourceImage,0,0);
+  ctxChannel.globalCompositeOperation = 'darken';
+  ctxChannel.fillStyle = inColor;
+  ctxChannel.fillRect(0,0,imageWidth,imageHeight);
   ctxChannel.globalCompositeOperation = 'hue';
   ctxChannel.fillStyle = 'hsl(' + outHue + ',100%,50%)';
   ctxChannel.fillRect(0,0,imageWidth,imageHeight);
