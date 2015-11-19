@@ -3,33 +3,27 @@ var elShiftInput = document.getElementById('shift');
 var elPickerInput = document.getElementById('picker');
 
 var elOutputCanvas = document.getElementById('output');
-var elHueShiftCanvas = document.createElement('canvas');
-var elRedDiffCanvas = document.createElement('canvas');
+var elChannelCanvas = document.createElement('canvas');
 
 var imageWidth, imageHeight;
 
-var ctxOutput = elOutputCanvas.getContext('2d');
-var ctxRedDiff = elRedDiffCanvas.getContext('2d');
-var ctxHueShift = elHueShiftCanvas.getContext('2d');
+var ctxComposite = elOutputCanvas.getContext('2d');
+var ctxChannel = elChannelCanvas.getContext('2d');
 
-function imageComposite(ctx,image,compositing,mixin) {
-  ctx.globalCompositeOperation = 'copy';
-  ctx.drawImage(image,0,0);
-  ctx.globalCompositeOperation = compositing;
-  if (typeof mixin == 'string') {
-    ctx.fillStyle = mixin;
-    ctx.fillRect(0,0,imageWidth,imageHeight);
-  } else {
-    ctx.drawImage(mixin,0,0);
-  }
+function mixChannel(inColor, outHue) {
+  ctxChannel.globalCompositeOperation = 'copy';
+  ctxChannel.drawImage(elSourceImage,0,0);
+  ctxChannel.globalCompositeOperation = 'hue';
+  ctxChannel.fillStyle = 'hsl(' + outHue + ',100%,50%)';
+  ctxChannel.fillRect(0,0,imageWidth,imageHeight);
+  ctxComposite.drawImage(elChannelCanvas,0,0);
 }
 
 function updateCanvasSizes() {
   imageHeight = elSourceImage.height;
   imageWidth = elSourceImage.width;
   return [ elOutputCanvas,
-    elHueShiftCanvas,
-    elRedDiffCanvas ].forEach(function(canvas){
+    elChannelCanvas ].forEach(function(canvas){
       canvas.width = imageWidth;
       canvas.height = imageHeight;
   });
@@ -43,11 +37,13 @@ elShiftInput.addEventListener("input", function () {
 });
 
 function updateShiftedHue() {
-  imageComposite(ctxHueShift,elRedDiffCanvas,'difference',
-    'hsl('+(hueShift)+',100%,50%)');
-  imageComposite(ctxOutput, elSourceImage, 'hue', elHueShiftCanvas);
-  ctxOutput.globalCompositeOperation = 'destination-in';
-  ctxOutput.drawImage(elSourceImage, 0, 0);
+  ctxComposite.clearRect(0,0,imageWidth,imageHeight);
+  ctxComposite.globalCompositeOperation = 'lighten';
+  mixChannel('#f00', hueShift);
+  mixChannel('#0f0', hueShift + 60);
+  mixChannel('#00f', hueShift + 120);
+  ctxComposite.globalCompositeOperation = 'destination-in';
+  ctxComposite.drawImage(elSourceImage, 0, 0);
 }
 
 function setNewImageSource() {
@@ -58,7 +54,6 @@ elPickerInput.addEventListener("input", setNewImageSource);
 
 function updateImage() {
   updateCanvasSizes();
-  imageComposite(ctxRedDiff,elSourceImage,'difference','#f00');
   updateShiftedHue();
 }
 
