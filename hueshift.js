@@ -44,7 +44,7 @@ elShiftInput.addEventListener("input", function () {
 
 function updateShiftedHue() {
   imageComposite(ctxHueShift,elSourceImage,'difference',
-    'hsl('+(hueShift+180)+',100%,50%)');
+    'hsl('+(hueShift)+',100%,50%)');
   ctxHueShift.drawImage(elRedDiffCanvas, 0, 0);
   ctxHueShift.drawImage(elSourceImage, 0, 0);
   imageComposite(ctxOutput, elSourceImage, 'hue', elHueShiftCanvas);
