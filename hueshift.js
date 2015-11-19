@@ -24,9 +24,9 @@ function imageComposite(ctx,image,compositing,mixin) {
   }
 }
 
-function updateCanvasSizes(image) {
-  imageHeight = image.height;
-  imageWidth = image.width;
+function updateCanvasSizes() {
+  imageHeight = elSourceImage.height;
+  imageWidth = elSourceImage.width;
   return [ elOutputCanvas,
     elHueShiftCanvas,
     elRedDiffCanvas ].forEach(function(canvas){
