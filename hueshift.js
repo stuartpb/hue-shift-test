@@ -43,8 +43,8 @@ function updateShiftedHue() {
   ctxComposite.clearRect(0,0,imageWidth,imageHeight);
   ctxComposite.globalCompositeOperation = 'lighten';
   mixChannel('#f00', hueShift);
-  mixChannel('#0f0', hueShift + 60);
-  mixChannel('#00f', hueShift + 120);
+  mixChannel('#0f0', hueShift + 120);
+  mixChannel('#00f', hueShift + 240);
   ctxComposite.globalCompositeOperation = 'destination-in';
   ctxComposite.drawImage(elSourceImage, 0, 0);
 }
